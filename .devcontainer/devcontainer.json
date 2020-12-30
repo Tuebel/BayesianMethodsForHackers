@@ -26,9 +26,9 @@
 	],
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
-		"julia.environmentPath": "/workspaces/scigl.jl",
+		"julia.environmentPath": "${containerWorkspaceFolder}",
 		"powerHeader.commentMode": "line",
-		"powerHeader.template": "file://$WORKSPACE_FOLDER/copyright_template.txt",
+		"powerHeader.template": "file://${containerWorkspaceFolder}/copyright_template.txt",
 		"terminal.integrated.shell.linux": "/bin/bash"
 	},
 }
