@@ -1,4 +1,4 @@
-module BayesianMethods
+module BayesianMethodsGen
 
 greet() = print("Hello World!")
 
