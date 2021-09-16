@@ -2,7 +2,7 @@
 // Copyright (c) 2020, Institute of Automatic Control - RWTH Aachen University
 // All rights reserved. 
 {
-	"name": "CudaGL.jl",
+	"name": "BayesianMethods.jl",
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
@@ -16,10 +16,7 @@
 		".devcontainer/postcreate.jl",
 	],
 	"runArgs": [
-		// NVIDIA docker for CUDA
-		"--gpus",
-		"all",
-		// Forward Display for OpenGL
+		// Forward Display for GUI
 		"--env=DISPLAY",
 		"--env=QT_X11_NO_MITSHM=1",
 		"--volume=/tmp/.X11-unix:/tmp/.X11-unix:rw",
@@ -29,6 +26,6 @@
 		"julia.environmentPath": "${containerWorkspaceFolder}",
 		"powerHeader.commentMode": "line",
 		"powerHeader.template": "file://${containerWorkspaceFolder}/copyright_template.txt",
-		"terminal.integrated.shell.linux": "/bin/bash"
+		"terminal.integrated.defaultProfile.linux": "bash"
 	},
 }
