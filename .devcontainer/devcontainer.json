@@ -4,7 +4,7 @@
 {
 	"name": "BayesianMethods.jl",
 	"build": {
-		"dockerfile": "Dockerfile"
+		"dockerfile": "Dockerfile",
 	},
 	"extensions": [
 		"epivision.vscode-file-header",
