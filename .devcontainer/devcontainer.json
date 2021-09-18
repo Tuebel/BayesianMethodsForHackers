@@ -9,18 +9,21 @@
 	"extensions": [
 		"epivision.vscode-file-header",
 		"julialang.language-julia",
-		"ms-toolsai.jupyter"
+		"ms-toolsai.jupyter",
+		"streetsidesoftware.code-spell-checker"
 	],
 	"postCreateCommand": [
 		"julia",
 		".devcontainer/postcreate.jl",
 	],
 	"runArgs": [
-		// Forward Display for GUI
-		"--env=DISPLAY",
-		"--env=QT_X11_NO_MITSHM=1",
+		// Write to X11 server of host
 		"--volume=/tmp/.X11-unix:/tmp/.X11-unix:rw",
 	],
+	"containerEnv": {
+		"DISPLAY": "${localEnv:DISPLAY}",
+		"QT_X11_NO_MITSHM": "1",
+	},
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
 		"julia.environmentPath": "${containerWorkspaceFolder}",
