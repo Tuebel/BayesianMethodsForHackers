@@ -10,14 +10,24 @@ RUN apt-get update \
     && apt-get install -y curl git git-lfs \
     && rm -rf /var/lib/apt/lists/*
 
-# Miniconda for IJulia
-ENV PATH="/root/miniconda3/bin:${PATH}"
-RUN curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o /tmp/miniconda.sh \
-    && sh /tmp/miniconda.sh -b \
-    && rm /tmp/miniconda.sh
-RUN conda install -c conda-forge jupyterlab -y
-COPY install_ijulia.jl /tmp/install_ijulia.jl
+# Non-root-user to avoid file permission problems
+ARG USERNAME=vscode
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && apt-get update \
+    && apt-get install -y sudo \
+    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME
+USER $USERNAME
 
-# Add IJulia to Project
-RUN julia /tmp/install_ijulia.jl \
-    && rm /tmp/install_ijulia.jl
+# IJUlia for non-root user
+RUN curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o /tmp/miniconda.sh \
+    && sh /tmp/miniconda.sh -b -p /home/vscode/miniconda \
+    && rm /tmp/miniconda.sh
+ENV PATH="/home/vscode/miniconda/bin:${PATH}"
+RUN conda init bash
+RUN conda install -c conda-forge -y jupyterlab 
+COPY install_ijulia.jl /tmp/install_ijulia.jl
+RUN julia /tmp/install_ijulia.jl
